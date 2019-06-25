@@ -11,7 +11,7 @@ const request = async(url, options) => {
             },
         };
         
-        
+                
         
             const response = await fetch(url,requestOptions);
 
@@ -31,7 +31,12 @@ const request = async(url, options) => {
 
 };
 
-const get = (url, params) =>  request(url, { method: 'GET'});
+const get = async (url, params) => {
+    const paramsString = params ? `?${queryString.stringify(params)}` : '';
+    const requestUrl = `${url}${paramsString}`;
+    console.log(requestUrl);
+    return request(requestUrl, { method: 'GET' });
+};
 
 const post = (url, body) => request(url, {
     body: JSON.stringify(body),

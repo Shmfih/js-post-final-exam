@@ -7,9 +7,16 @@ class PostAPI {
         return 'posts';
     }
 
-    getAll () {
+    getAll (params) {
         const url = `${AppConstants.API_URL}/${this.getResourceName()}`;
-        return fetchClient.get(url);
+        const defaultParams = { _page: AppConstants.DEFAULT_PAGE, _limit: AppConstants.DEFAULT_LIMIT};
+        
+        if(!params){    
+            return fetchClient.get(url,defaultParams);
+        }
+        else {
+            return fetchClient.get(url,params)
+        }
     }
 
     getDetail (postID) {

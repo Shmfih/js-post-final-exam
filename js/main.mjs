@@ -63,8 +63,11 @@ const renderPostList = (post) => {
 const init = async() => {
 
   // Get post list
-  const postListValue = await postApi.getAll();
-  
+  const postListValue = await postApi.getAll(
+    {'_sort': 'updatedAt',
+    '_order': 'desc',
+    });
+  console.log( )
   if (Array.isArray(postListValue)) {
     for (const post of postListValue) {
       //console.log(postItemElement);
