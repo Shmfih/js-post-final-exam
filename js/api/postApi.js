@@ -36,7 +36,3 @@ class PostAPI {
 
 const postApi = new PostAPI;
 export default postApi;
-// dù import bao nhiêu lần vẫn chỉ tạo ra 1 instance
-// single instance
-
-// class nếu có constructor() thì các thuộc tính thay đổi được
