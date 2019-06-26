@@ -2,7 +2,7 @@
 
 import postApi from './api/postApi.js';
 import utils from './utils.js';
-
+import AppConstants from './appConstants.js';
 
 const renderPostList = (post) => {
 
@@ -63,16 +63,20 @@ const renderPostList = (post) => {
 const init = async() => {
 
   // Get post list
-  const postListValue = await postApi.getAll(
-    {'_sort': 'updatedAt',
-    '_order': 'desc',
-    });
-  console.log( )
-  if (Array.isArray(postListValue)) {
-    for (const post of postListValue) {
+  const postListValue = await postApi.getAll({
+    _page: AppConstants.DEFAULT_PAGE,
+    _limit: AppConstants.DEFAULT_LIMIT,
+    _sort: 'updatedAt',
+    _order: 'desc',
+  });
+
+  console.log(postListValue);
+  if (postListValue.data) {
+    for (const post of postListValue.data) {
       //console.log(postItemElement);
       //const postItemElement = renderPostItem(p);
       //if (postItemElement) {
+        console.log(post);
         renderPostList(post);
       //}
     }
