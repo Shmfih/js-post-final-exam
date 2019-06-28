@@ -29,9 +29,10 @@ const init = async() => {
     try {
         const params = new URLSearchParams (window.location.search);
         const postId = params.get('postId');
-        console.log(postId)
+        //console.log(postId)
         if (!postId) return;
         const post = await postApi.getDetail(postId);
+        //console.log(post);
         renderEditLink(post);
         renderPost(post);
     } catch (error){

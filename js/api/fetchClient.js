@@ -1,4 +1,5 @@
-
+import queryString from "./queryString.js";
+import AppConstants from '../appConstants.js';
 
 
 const request = async(url, options) => {
@@ -32,11 +33,11 @@ const request = async(url, options) => {
 };
 
 const get = async (url, params) => {
-    const queryString = new URLSearchParams(window.location.search);
-    const paramsString = params ? `?${queryString}` : '';
-    //console.log(queryString);
-    const requestUrl = `${url}${paramsString}`;
-    console.log(requestUrl);
+    
+    const paramString = params ? `?${queryString.stringify(params)}` : '';
+    //console.log(queryString.stringify(params));
+    const requestUrl = `${url}${paramString}`;
+    //console.log(requestUrl);
     return request(requestUrl, { method: 'GET' });
 };
 

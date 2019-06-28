@@ -11,6 +11,7 @@ class PostAPI {
         const url = `${AppConstants.API_URL}/${this.getResourceName()}`;
         const defaultParams = { _page: AppConstants.DEFAULT_PAGE, _limit: AppConstants.DEFAULT_LIMIT};
         
+        //console.log(url)
         if(params){    
             return fetchClient.get(url,params);
         }
