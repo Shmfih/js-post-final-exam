@@ -1,6 +1,5 @@
 'use strict';
 
-// ----------- LEARNING -----------
 import postApi from './api/postApi.js';
 import utils from './utils.js';
 
@@ -14,13 +13,16 @@ const renderPost = async(post) => {
        img.setAttribute('style', `background-image: url("${post.imageUrl}");`);
     }
     utils.setTextByElementId('postDetailDescription',post.description);
+    //const postDescription = document.querySelector('.post-content-wrapper');
+    //console.log(postDescription);
+    //postDescription.innerHTML = `<p>${post.description}</p>`;
 
 }
 
 const renderEditLink = (post) => {
     const editLink = document.querySelector('#goToEditPageLink');
     if (editLink){
-        editLink.href = `add-edit-post.html?postID=${post.id}`;
+        editLink.href = `add-edit-post.html?postId=${post.id}`;
         editLink.innerHTML = '<i class="fas fa-edit"></i>Edit post';
     }
 }

@@ -175,7 +175,24 @@ const init = async() => {
   console.log(postListItem);
   renderPostList(postListItem.data);
   renderPagination(postListItem.pagination);
-
+  // Animation
+  anime({
+    targets: 'ul.posts-list > li',
+    scale: [
+      { value: 0.5, duration: 0 },
+      { value: 1, duration: 300 },
+    ],
+    opacity: [
+      { value: 0, duration: 0 },
+      { value: 1, duration: 250 },
+    ],
+    translateX: [
+      { value: 80, duration: 0 },
+      { value: 0, duration: 500 },
+    ],
+    delay: anime.stagger(150), // increase delay by 100ms for each elements.
+    easing: 'linear'
+  });
 }
 
 init();
