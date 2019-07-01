@@ -60,6 +60,24 @@ const addPost = (post) => {
     postsElement.appendChild(postItemElement);
   }
 
+  //Edit button event
+  const editButton = postItemElement.querySelector('#postItemEdit');
+  editButton.addEventListener('click', (e) => {
+    const editPageUrl = `add-edit-post.html?postId=${post.id}`;
+    // Navigate to edit page
+    window.location = editPageUrl;
+    e.stopPropagation();
+  });
+
+  // Remove button event
+  const removeButton = postItemElement.querySelector('#postItemRemove');
+  removeButton.addEventListener('click', (e) => {
+    handleRemovePostButtonClick(post);
+    e.stopPropagation();
+  });
+
+  return postItemElement;
+};
 
 
 }
@@ -167,6 +185,20 @@ const renderPagination = (pagination) => {
   }
 };
 
+const handleRemovePostButtonClick = async (post) => {
+  try {
+    const confirmMessage = `Do you really want to remove ${post.title}?!`;
+    if (window.confirm(confirmMessage)) {
+      // Remove post
+      await postApi.removePost(post.id);
+
+      // Reload page
+      window.location.reload();
+    }
+  } catch (error) {
+    alert('Oops! Error in deleting post: ', error);
+  }
+};
 
 const init = async() => {
 
@@ -190,7 +222,7 @@ const init = async() => {
       { value: 80, duration: 0 },
       { value: 0, duration: 500 },
     ],
-    delay: anime.stagger(150), // increase delay by 100ms for each elements.
+    delay: anime.stagger(150),
     easing: 'linear'
   });
 }
