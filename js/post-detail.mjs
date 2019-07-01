@@ -38,7 +38,7 @@ const init = async() => {
         renderEditLink(post);
         renderPost(post);
     } catch (error){
-        console.log(error)
+        //console.log(error)
     }
 }
 

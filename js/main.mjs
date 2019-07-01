@@ -109,7 +109,7 @@ const renderPostList = (postListItemData) => {
       }
     }
   else {
-    console.log('Nothing found!');
+    //console.log('Nothing found!');
   }
 }
 
@@ -202,7 +202,7 @@ const init = async() => {
 
   // Get post items
   const postListItem = await getPostList();
-  console.log(postListItem);
+  //console.log(postListItem);
   renderPostList(postListItem.data);
   renderPagination(postListItem.pagination);
   // Animation

@@ -31,7 +31,7 @@ class PostAPI {
     }
 
     update (post) {
-        const url = `${AppConstants.API_URL}/${this.getResourceName()}/${postID}`;
+        const url = `${AppConstants.API_URL}/${this.getResourceName()}/${post.id}`;
         return fetchClient.patch(url,post);
     }
 

@@ -26,7 +26,7 @@ const handleChangeImageClick = () => {
 
   // Update post image
   utils.setBackgroundImageByElementId('postHeroImage', imageUrl);
-  console.log(imageUrl);
+  //console.log(imageUrl);
 };
 
 
@@ -67,7 +67,9 @@ const handlePostFormSubmit = async (postId) => {
       };
 
       if (postId) {
+        //console.log(submitData);
         await postApi.update(submitData);
+        //console.log(result);
         alert('Save post successfully!');
       }
       else {
@@ -81,7 +83,7 @@ const handlePostFormSubmit = async (postId) => {
       }
     } catch (error) {
       alert('Oops!Something went wrong: ', error);
-      console.log(error);
+      //console.log(error);
     }
   }
 };
@@ -95,7 +97,7 @@ const init = async () => {
   const params = new URLSearchParams (window.location.search);
   const postId = params.get('postId');
   const isEditMode = !!postId;
-  console.log(isEditMode);
+  //console.log(isEditMode);
   // Check if edit mode
   if (isEditMode) {
 
