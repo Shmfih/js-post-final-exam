@@ -80,7 +80,6 @@ const addPost = (post) => {
 };
 
 
-}
 
 const getPostList = async() => {
   const searchParams = new URLSearchParams(window.location.search)   
