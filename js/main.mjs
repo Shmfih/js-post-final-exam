@@ -3,7 +3,6 @@
 import postApi from './api/postApi.js';
 import utils from './utils.js';
 import AppConstants from './appConstants.js';
-import queryString from './api/queryString.js';
 
 const addPost = (post) => {
 
