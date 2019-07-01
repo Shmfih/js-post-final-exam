@@ -3,6 +3,7 @@ import postApi from './api/postApi.js';
 import utils from './utils.js';
 import AppConstants from './appConstants.js';
 
+let oldPostData; // Make global variable to store old data from server
 
 const setFieldValue = async(post) => {
     
@@ -58,22 +59,44 @@ const handlePostFormSubmit = async (postId) => {
   if (isValid) {
     try {
       
-      const submitData = {
+      const newData = {
         id: postId,
-        title: utils.getBackgroundImageByElementId('postHeroImage'),
+        title: utils.getValueByElementId('postTitle'),
         author: utils.getValueByElementId('postAuthor'),
         description: utils.getValueByElementId('postDescription'),
         imageUrl: utils.getBackgroundImageByElementId('postHeroImage'),
       };
-
+      
+      //console.log(submitData);
+      // Edit mode
       if (postId) {
-        //console.log(submitData);
-        await postApi.update(submitData);
-        //console.log(result);
-        alert('Save post successfully!');
+        
+        // Check submit data, only add new data
+        let editedData = {}; 
+        const oldData = oldPostData; // Get old data
+        const checkKey = ['title', 'author', 'description', 'imageUrl' ]; // Key to check
+        let hasChange = false;
+        for (const key of checkKey){
+          if(newData[key]!==oldData[key]){
+            editedData = Object.assign(editedData,{[key] : newData[key]}); // Assign any change to editedData object
+            hasChange = true;
+          }
+        }
+        if (!hasChange){
+          alert ('Nothing changed!');
+          return;
+        }
+        else {
+          editedData = Object.assign(editedData, {id: postId}); // Add id to update
+          //console.log(editedData);
+          await postApi.update(editedData);
+          alert('Save post successfully!');
+        }
       }
+
+      // Add mode
       else {
-        const newPost = await postApi.add(submitData);
+        const newPost = await postApi.add(newData);
 
         // Go to edit page
         const editPageUrl = `add-edit-post.html?postId=${newPost.id}`;
@@ -83,7 +106,7 @@ const handlePostFormSubmit = async (postId) => {
       }
     } catch (error) {
       alert('Oops!Something went wrong: ', error);
-      //console.log(error);
+      console.log(error);
     }
   }
 };
@@ -105,7 +128,7 @@ const init = async () => {
     if (!postId) return;
     const post = await postApi.getDetail(postId);
     setFieldValue(post);
-
+    oldPostData = post; // Set global variable
 
     const goToDetailPageLink = document.getElementById('goToDetailPageLink');
     goToDetailPageLink.href = `post-detail.html?postId=${post.id}`;

@@ -117,14 +117,31 @@ const renderPostList = (postListItemData) => {
 const getPageList = (pagination) => {
   const { _limit, _totalRows, _page } = pagination;
   const totalPages = Math.ceil(_totalRows / _limit);
-  let prevPage = -1;
+  //let prevPage = -1;
+  let pageArray = [];
+  
 
-  // Return -1 if invalid page detected
-  if (_page < 1 || _page > totalPages) return [0, -1, -1, -1, 0];
+  // Return 0,0 if no page detected
+  if (_page >= 1 && _page <= totalPages) {
+    const isFirstPage = _page === 1? 0 : 1; //if first page, no "Prev" button, set it = 0
+    const isLastPage = _page === totalPages ? 0 : 1;
+    pageArray.push(isFirstPage);
+    for (let n=0;n < (totalPages - 1); n++){
+      pageArray.push(n+1);
+    }
+  
+    pageArray.push(isLastPage);
+    
+  }
+  else {
+    pageArray = [0,0];
+  }
 
 
+  console.log(pageArray);
+  return pageArray;
   // Calculate prev page
-  if (_page === 1) prevPage = 1;
+  /*if (_page === 1) prevPage = 1;
   else if (_page === totalPages) prevPage = _page - 2 > 0 ? _page - 2 : 1;
   else prevPage = _page - 1;
 
@@ -135,7 +152,8 @@ const getPageList = (pagination) => {
     _page === 1 || _page === 1 ? 0 : _page - 1,
     prevPage, currPage, nextPage,
     _page === totalPages || totalPages === _page ? 0 : _page + 1,
-  ];
+  ];*/
+
 }
 
 const renderPagination = (pagination) => {
