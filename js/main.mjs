@@ -163,10 +163,10 @@ const renderPagination = (pagination) => {
     const { _page, _limit } = pagination;
     // Search list of 5 page items
     const pageItems = postPagination.querySelectorAll('.page-item');
-
-    // Just to make sure pageItems has exactly 5 items
-    if (pageItems.length === 5) {
-      pageItems.forEach((item, idx) => {
+    
+    // Make sure if there are more than 1 page
+    if (pageList.length > 3) {
+      /*pageItems.forEach((item, idx) => {
         switch (pageList[idx]) {
           case -1:
             item.setAttribute('hidden', '');
@@ -193,12 +193,26 @@ const renderPagination = (pagination) => {
             }
           }
         }
-      });
+      });*/
+      //const prevButt
+      
 
+
+
+
+        for (let i = 1; i <= (pageList.length - 2);i++){
+          const liElements = document.createElement('li');
+          liElements.classList.add('page-item');
+          if(_page===i) liElements.classList.add('active'); 
+          liElements.innerHTML = `<a class="page-link" href="?_page=${i}&_limit=${_limit}">${i}</a>`;
+          postPagination.appendChild(liElements);
+        }
+        
+      }
       // Show pagination
       postPagination.removeAttribute('hidden');
     }
-  }
+
 };
 
 const handleRemovePostButtonClick = async (post) => {
