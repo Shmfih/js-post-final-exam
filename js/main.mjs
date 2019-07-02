@@ -126,7 +126,7 @@ const getPageList = (pagination) => {
     const isFirstPage = _page === 1? 0 : 1; //if first page, no "Prev" button, set it = 0
     const isLastPage = _page === totalPages ? 0 : 1;
     pageArray.push(isFirstPage);
-    for (let n=0;n < (totalPages - 1); n++){
+    for (let n=0;n < totalPages; n++){
       pageArray.push(n+1);
     }
   
@@ -161,56 +161,37 @@ const renderPagination = (pagination) => {
   if (postPagination) {
     const pageList = getPageList(pagination);
     const { _page, _limit } = pagination;
-    // Search list of 5 page items
-    const pageItems = postPagination.querySelectorAll('.page-item');
-    
-    // Make sure if there are more than 1 page
-    if (pageList.length > 3) {
-      /*pageItems.forEach((item, idx) => {
-        switch (pageList[idx]) {
-          case -1:
-            item.setAttribute('hidden', '');
-            break;
-          case 0:
-            item.classList.add('disabled');
-            break;
-          default: {
-            // Find page link
-            const pageLink = item.querySelector('.page-link');
-            if (pageLink) {
-              // Update href of page link
-              pageLink.href = `?_page=${pageList[idx]}&_limit=${_limit}`;
-
-              // Update text content of page link for item: 1, 2, 3 (zero base)
-              if (idx > 0 && idx < 4) {
-                pageLink.textContent = pageList[idx];
-              }
-            }
-
-            // Set current active page item, only for 1, 2, 3 (zero base)
-            if (idx > 0 && idx < 4 && pageList[idx] === _page) {
-              item.classList.add('active');
-            }
-          }
-        }
-      });*/
-      //const prevButt
-      
-
-
-
-
-        for (let i = 1; i <= (pageList.length - 2);i++){
-          const liElements = document.createElement('li');
-          liElements.classList.add('page-item');
-          if(_page===i) liElements.classList.add('active'); 
-          liElements.innerHTML = `<a class="page-link" href="?_page=${i}&_limit=${_limit}">${i}</a>`;
-          postPagination.appendChild(liElements);
-        }
+    //console.log(pageList);
+    // Make sure there is 1 page or more
+    if (pageList.length >= 3) {
+     
         
-      }
-      // Show pagination
+
+      pageList.forEach((page,index) => {
+        const pageElements = document.createElement('li');
+        pageElements.classList.add('page-item');
+        switch (index){
+          case 0:
+            // PrevButton
+            pageElements.innerHTML = `<a class="page-link" href="?_page=${_page-1}&_limit=${_limit}" aria-label="Previous">&laquo;</a>`;
+            if(_page===1) pageElements.classList.add('disabled'); // Disable Prev Button in first page
+            break;
+          case pageList.length-1:
+            // NextButton
+            pageElements.innerHTML = `<a class="page-link" href="?_page=${_page+1}&_limit=${_limit}" aria-label="Next">&raquo;</a>`;
+            if(_page===(pageList.length-2)) pageElements.classList.add('disabled'); // Disable Next button in last page
+            break;
+          default:
+            pageElements.innerHTML = `<a class="page-link" href="?_page=${page}&_limit=${_limit}">${page}</a>`;
+            if(_page===page) pageElements.classList.add('active'); 
+            break;
+        }
+        console.log(index,pageElements);
+        postPagination.appendChild(pageElements);
+      });
       postPagination.removeAttribute('hidden');
+      }
+      
     }
 
 };
