@@ -218,7 +218,12 @@ const init = async() => {
   //console.log(postListItem);
   renderPostList(postListItem.data);
   renderPagination(postListItem.pagination);
-  // Animation
+  
+  // hide loading spinner
+  const loadingSpinner = document.querySelector('.spinner-border');
+  loadingSpinner.classList.add('invisible');
+
+  // Animation posts
   anime({
     targets: 'ul.posts-list > li',
     scale: [
