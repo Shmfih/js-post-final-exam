@@ -91,6 +91,7 @@ const handlePostFormSubmit = async (postId) => {
           //console.log(editedData);
           await postApi.update(editedData);
           alert('Save post successfully!');
+          window.location = `post-detail.html?postId=${postId}`;
         }
       }
 
@@ -99,14 +100,14 @@ const handlePostFormSubmit = async (postId) => {
         const newPost = await postApi.add(newData);
 
         // Go to edit page
-        const editPageUrl = `add-edit-post.html?postId=${newPost.id}`;
-        window.location = editPageUrl;
+        const viewPageUrl = `post-detail.html?postId=${newPost.id}`;
+        window.location = viewPageUrl;
 
         alert('Add new post successfully!');
       }
     } catch (error) {
       alert('Oops!Something went wrong: ', error);
-      console.log(error);
+      //console.log(error);
     }
   }
 };

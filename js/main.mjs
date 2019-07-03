@@ -138,21 +138,9 @@ const getPageList = (pagination) => {
   }
 
 
-  console.log(pageArray);
+  //console.log(pageArray);
   return pageArray;
-  // Calculate prev page
-  /*if (_page === 1) prevPage = 1;
-  else if (_page === totalPages) prevPage = _page - 2 > 0 ? _page - 2 : 1;
-  else prevPage = _page - 1;
 
-  const currPage = prevPage + 1 > totalPages ? -1 : prevPage + 1;
-  const nextPage = prevPage + 2 > totalPages ? -1 : prevPage + 2;
-
-  return [
-    _page === 1 || _page === 1 ? 0 : _page - 1,
-    prevPage, currPage, nextPage,
-    _page === totalPages || totalPages === _page ? 0 : _page + 1,
-  ];*/
 
 }
 
@@ -186,7 +174,7 @@ const renderPagination = (pagination) => {
             if(_page===page) pageElements.classList.add('active'); 
             break;
         }
-        console.log(index,pageElements);
+        //console.log(index,pageElements);
         postPagination.appendChild(pageElements);
       });
       postPagination.removeAttribute('hidden');
@@ -201,13 +189,14 @@ const handleRemovePostButtonClick = async (post) => {
     const confirmMessage = `Do you really want to remove ${post.title}?!`;
     if (window.confirm(confirmMessage)) {
       // Remove post
-      await postApi.removePost(post.id);
+      await postApi.remove(post.id);
 
       // Reload page
       window.location.reload();
     }
   } catch (error) {
     alert('Oops! Error in deleting post: ', error);
+    //console.log(error);
   }
 };
 
