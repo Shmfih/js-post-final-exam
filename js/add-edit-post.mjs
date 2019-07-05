@@ -87,9 +87,11 @@ const handlePostFormSubmit = async (postId) => {
           return;
         }
         else {
+          showLoadingSpinner();
           editedData = Object.assign(editedData, {id: postId}); // Add id to update
           //console.log(editedData);
           await postApi.update(editedData);
+          hideLoadingSpinner();
           alert('Save post successfully!');
           window.location = `post-detail.html?postId=${postId}`;
         }
@@ -97,13 +99,15 @@ const handlePostFormSubmit = async (postId) => {
 
       // Add mode
       else {
+        showLoadingSpinner();
         const newPost = await postApi.add(newData);
-
         // Go to edit page
         const viewPageUrl = `post-detail.html?postId=${newPost.id}`;
+        hideLoadingSpinner();
+        alert('Add new post successfully!');
         window.location = viewPageUrl;
 
-        alert('Add new post successfully!');
+
       }
     } catch (error) {
       alert('Oops!Something went wrong: ', error);
@@ -112,6 +116,16 @@ const handlePostFormSubmit = async (postId) => {
   }
 };
 
+
+const showLoadingSpinner = () => {
+  const saveButton = document.querySelector('#saveButton');
+  saveButton.innerHTML='<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Saving...';
+}
+
+const hideLoadingSpinner = () => {
+  const saveButton = document.querySelector('#saveButton');
+  saveButton.innerHTML='<i class="fas fa-save mr-1"></i> Save';
+}
 
 // ---------------------------
 // MAIN LOGIC
