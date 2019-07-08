@@ -6,16 +6,23 @@ import utils from './utils.js';
 const renderPost = async(post) => {
     
     utils.setTextByElementId('postDetailTitle',post.title);
+
     utils.setTextByElementId('postDetailAuthor',post.author);
+    
     utils.setTextByElementId('postDetailTimeSpan',utils.formatDate(post.createdAt));
+
+    // Set image
     const img = document.querySelector('#postHeroImage');
     if(img){
        img.setAttribute('style', `background-image: url("${post.imageUrl}");`);
     }
+
     utils.setTextByElementId('postDetailDescription',post.description);
-    //const postDescription = document.querySelector('.post-content-wrapper');
-    //console.log(postDescription);
-    //postDescription.innerHTML = `<p>${post.description}</p>`;
+
+    // Use this to show description as main post content
+    /*const postDescription = document.querySelector('.post-content-wrapper');
+    console.log(postDescription);
+    postDescription.innerHTML = `<p>${post.description}</p>`;*/
 
 }
 
@@ -29,16 +36,17 @@ const renderEditLink = (post) => {
 
 const init = async() => {
     try {
+        // Get post data
         const params = new URLSearchParams (window.location.search);
         const postId = params.get('postId');
-        //console.log(postId)
         if (!postId) return;
         const post = await postApi.getDetail(postId);
-        //console.log(post);
+
+        // Render post
         renderEditLink(post);
         renderPost(post);
     } catch (error){
-        //console.log(error)
+        alert(`Error while loading post\'s data: ${error}`);
     }
 }
 

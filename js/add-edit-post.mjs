@@ -6,7 +6,8 @@ import AppConstants from './appConstants.js';
 let oldPostData; // Make global variable to store old data from server
 
 const setFieldValue = async(post) => {
-    
+  
+  // Set form value
   utils.setValueByElementId('postTitle',post.title);
   utils.setValueByElementId('postAuthor',post.author);
   utils.setValueByElementId('postDescription', post.description);
@@ -19,6 +20,7 @@ const setFieldValue = async(post) => {
 
 
 const handleChangeImageClick = () => {
+
   // Random id number
   const randomId = 1 + Math.trunc(Math.random() * 999);
 
@@ -27,7 +29,7 @@ const handleChangeImageClick = () => {
 
   // Update post image
   utils.setBackgroundImageByElementId('postHeroImage', imageUrl);
-  //console.log(imageUrl);
+
 };
 
 
@@ -67,7 +69,6 @@ const handlePostFormSubmit = async (postId) => {
         imageUrl: utils.getBackgroundImageByElementId('postHeroImage'),
       };
       
-      //console.log(submitData);
       // Edit mode
       if (postId) {
         
@@ -82,20 +83,25 @@ const handlePostFormSubmit = async (postId) => {
             hasChange = true;
           }
         }
+
+        // Alert if nothing changed
         if (!hasChange){
           alert ('Nothing changed!');
           return;
         }
         else {
           showLoadingSpinner();
-          editedData = Object.assign(editedData, {id: postId}); // Add id to update
-          //console.log(editedData);
+          // Add id to new data
+          editedData = Object.assign(editedData, {id: postId});
+          // Update changed data
           await postApi.update(editedData);
           hideLoadingSpinner();
           alert('Save post successfully!');
+          // Redirect to post detail page
           window.location = `post-detail.html?postId=${postId}`;
         }
       }
+
 
       // Add mode
       else {
@@ -106,12 +112,9 @@ const handlePostFormSubmit = async (postId) => {
         hideLoadingSpinner();
         alert('Add new post successfully!');
         window.location = viewPageUrl;
-
-
       }
     } catch (error) {
       alert('Oops!Something went wrong: ', error);
-      //console.log(error);
     }
   }
 };
@@ -127,19 +130,15 @@ const hideLoadingSpinner = () => {
   saveButton.innerHTML='<i class="fas fa-save mr-1"></i> Save';
 }
 
-// ---------------------------
-// MAIN LOGIC
-// ---------------------------
 const init = async () => {
   // Get postId from query string
   const params = new URLSearchParams (window.location.search);
   const postId = params.get('postId');
   const isEditMode = !!postId;
-  //console.log(isEditMode);
+
   // Check if edit mode
   if (isEditMode) {
 
-    //console.log(postId);
     if (!postId) return;
     const post = await postApi.getDetail(postId);
     setFieldValue(post);
